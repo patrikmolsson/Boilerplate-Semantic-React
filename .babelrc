@@ -1,0 +1,31 @@
+{
+  "presets": ["es2015", "stage-0", "react"],
+  "plugins": [
+    [
+      "react-css-modules",
+      {
+        "webpackHotModuleReloading": true,
+        "filetypes": {
+          ".scss": "postcss-scss"
+        }
+      }
+    ],
+    [ "babel-plugin-module-resolver",
+      {
+        "root": ["./app"],
+        "alias": {
+          "components": "./components",
+          "containers": "./containers",
+          "helpers": "./helpers",
+          "scenes": "./scenes",
+          "services": "./services",
+          "styles": "./styles"
+        }
+      }
+    ],
+    [ "transform-decorators-legacy" ],
+    [ "transform-async-to-generator" ],
+    [ "transform-object-rest-spread" ],
+    [ "array-includes" ]
+  ]
+}

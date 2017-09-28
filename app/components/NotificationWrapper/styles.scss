@@ -1,0 +1,13 @@
+.wrapper {
+  position: fixed;
+  width: 60vw;
+  max-width: 600px;
+  z-index: 2000;
+  left: 50%;
+  top: 10px;
+  -webkit-transform: translateX(-50%);
+  -moz-transform: translateX(-50%);
+  -ms-transform: translateX(-50%);
+  -o-transform: translateX(-50%);
+  transform: translateX(-50%);
+}
