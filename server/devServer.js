@@ -1,28 +1,30 @@
-const path = require('path');
-const webpack = require('webpack');
-const express = require('express');
-const config = require('../webpack.config.development');
+import webpack from 'webpack';
+import express from 'express';
+import webpackDevMiddleware from 'webpack-dev-middleware';
+import webpackHotMiddleware from 'webpack-hot-middleware';
+import config from '../webpack.config';
 
 const compiler = webpack(config);
-const webpackDevMiddleware = require('webpack-dev-middleware')(compiler, {
-  publicPath: config.output.publicPath,
-});
-const webpackHotMiddleware = require('webpack-hot-middleware')(compiler);
-
 const app = express();
 
-app.use(webpackDevMiddleware);
-app.use(webpackHotMiddleware);
+const devMiddleware = webpackDevMiddleware(compiler, {
+  publicPath: config.output.publicPath,
+  historyApiFallback: true,
+});
+
+app.use(webpackHotMiddleware(compiler));
+app.use(devMiddleware);
+
 
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../index.html'));
+  // Here is it! Get the index.html from the fileSystem
+  devMiddleware.waitUntilValid(() => {
+    const htmlBuffer = devMiddleware.fileSystem.readFileSync(`${config.output.path}/index.html`);
+
+    res.send(htmlBuffer.toString());
+  });
 });
 
-app.listen(3000, (err) => {
-  if (err) {
-    console.error(err);
-    return;
-  }
+console.info('Running on localhost:3000');
+app.listen(3000, 'localhost');
 
-  console.info(' ✅  🌎  Listening at http://localhost:3000/');
-});

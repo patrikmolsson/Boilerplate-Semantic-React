@@ -1,1 +1,5 @@
+$icons-font-path: '../../node_modules/semantic-ui-sass/icons';
 
+:global {
+  @import "~semantic-ui-sass/semantic-ui.scss";
+}
